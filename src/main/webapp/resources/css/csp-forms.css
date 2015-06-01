@@ -1,0 +1,22 @@
+body {
+	background-image: url(http://www.we-van.com/pics/charte/bg-body.jpg);
+	background-position-x: 50%;
+	background-position-y: 0%;
+	background-size: initial;
+	background-repeat-x: no-repeat;
+	background-repeat-y: no-repeat;
+	background-attachment: initial;
+	background-origin: initial;
+	background-clip: initial;
+	background-color: rgb(93, 152, 170);
+	
+	font-family: 'Amaranth', sans-serif;
+}
+
+.menu li q{
+  font-size: 24px;
+  color: #FFF;
+  text-shadow: 1px 1px 4px #000;
+  text-decoration: none;
+  margin: 0 90px 0 0;
+}
