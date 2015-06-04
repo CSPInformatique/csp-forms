@@ -5,22 +5,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
-public abstract class Answer {
-	protected int id;
-	protected Question question;
-	protected Participant participant;
-	
-	public Answer(){
-		
+public class Answer {
+	private int id;
+	private Question question;
+	private String text;
+	private String filePath;
+
+	public Answer() {
+
 	}
-	
-	public Answer(int id, Question question, Participant participant) {
+
+	public Answer(int id, Question question, String text, String filePath) {
 		this.id = id;
 		this.question = question;
-		this.participant = participant;
+		this.text = text;
+		this.filePath = filePath;
 	}
 
 	@Id
@@ -42,13 +43,19 @@ public abstract class Answer {
 		this.question = question;
 	}
 
-	@OneToOne
-	public Participant getParticipant() {
-		return participant;
+	public String getText() {
+		return text;
 	}
 
-	public void setParticipant(Participant participant) {
-		this.participant = participant;
+	public void setText(String text) {
+		this.text = text;
 	}
-	
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 }

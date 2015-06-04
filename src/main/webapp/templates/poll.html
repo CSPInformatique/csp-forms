@@ -6,17 +6,81 @@
 	<head>
 		<title>We-Van - Concours</title>
 		
-		<link th:replace="util/import :: head">
+		<link th:replace="util/imports :: head" />
 	</head>
 	
-	<body>
-		<div th:include="util/menu :: menu"></div>
-		
-		<div ng-clock class="container">
-			<h1>We-Van - Concours</h1>
+	<body ng-app="Poll">		
+		<div class="poll container">			
+			<div class="text-center"><img class="logo" th:src="@{/img/logo-wevan.png}" /></div>
 			
-			
+			<div ng-controller="PollController" ng-cloak="">
+				<h1 class="text-center poll-title">{{poll.title}}</h1>
+				
+				<div ng-if="poll.submited == undefined">
+					<div class="text-center poll-description" ng-bind-html="pollDescriptionHtml"></div>
+					
+					<div class="question-group" ng-repeat="questionGroup in poll.questionGroups">
+						<h2>{{questionGroup.titleByLanguages[lang]}}</h2>
+						
+						<p>{{questionGroup.descriptionByLanguages[lang]}}</p>
+						
+						<div class="question" ng-repeat="question in questionGroup.questions">
+							<h3>{{question.questionsByLanguage[lang]}}<span class="mandatory" ng-if="question.mandatory">*</span></h3>
+							<div class="question-hint">{{question.answerExempleByLanguages[lang]}}</div>
+							
+							<div class="row">
+								<span ng-if="question.type == 'TEXT'" class="col-sm-6">
+									<input 
+										type="text" 
+										class="form-control" 
+										ng-model="answers[question.id].text"
+										ng-blur="validateField($event)"
+									/>
+								</span>
+								
+								<span ng-if="question.type == 'OPTIONS'" class="col-sm-6">
+									<select 
+										class="form-control"
+										ng-options="option for option in question.optionsByLanguages[lang].options" 
+										ng-model="answers[question.id].text"
+										ng-blur="validateField($event)"
+									></select>
+								</span>
+								
+								<span ng-if="question.type == 'TEXTAREA'" class="col-sm-9">
+									<textarea
+										class="form-control" 
+										ng-model="answers[question.id].text"
+										ng-blur="validateField($event)"
+									></textarea>
+								</span>
+								
+								<span ng-if="question.type == 'FILE_UPLOAD'" class="col-sm-9">
+									<input type="file" file-model="files[question.id]" file-on-change="validateFields()" />
+								</span>
+							</div>
+						</div>
+					</div>
+				
+					<div class="error alert alert-danger hidden" role="alert">
+						{{errorMessage}}
+						<button type="button" class="close" ng-click="hideAlerts()"><span aria-hidden="true">&times;</span></button>
+					</div>
+					
+					<div class="poll-notice" ng-bind-html="pollNoticeHtml"></div>
+					
+					<button ng-if="valid && poll.loading == undefined" class="btn btn-primary" ng-click="submit()">Soumettre</button>
+					<button ng-if="!valid || poll.loading == true" class="btn btn-primary" disabled="disabled">Soumettre</button>
+					<img ng-if="poll.loading == true" th:src="@{/img/loading.gif}" />
+				</div>
+				
+				<div ng-if="poll.submited">
+					<p class="text-center">Votre aventure nous a été soumise ! Merci pour votre participation !</p>
+				</div>
+			</div>
 		</div>
-		<script th:replace="util/import :: scripts"></script>
+		
+		<script th:replace="util/imports :: scripts"></script>
+		<script th:src="@{/js/polls.js}"></script>
 	</body>
 </html>

@@ -7,5 +7,7 @@ import com.cspinformatique.forms.model.Poll;
 public interface PollService {
 	List<Poll> findAll();
 	
+	Poll findOne(int id);
+	
 	Poll save(Poll poll);
 }

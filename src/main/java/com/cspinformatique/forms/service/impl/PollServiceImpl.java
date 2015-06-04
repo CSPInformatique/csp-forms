@@ -17,6 +17,11 @@ public class PollServiceImpl implements PollService {
 	public List<Poll> findAll() {
 		return pollRepository.findAll();
 	}
+	
+	@Override
+	public Poll findOne(int id){
+		return this.pollRepository.findOne(id);
+	}
 
 	@Override
 	public Poll save(Poll poll) {
