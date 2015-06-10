@@ -11,12 +11,11 @@
 	
 	<body ng-app="Poll">		
 		<div class="poll container">			
-			<div class="text-center"><img class="logo" th:src="@{/img/logo-wevan.png}" /></div>
+			<div class="text-center"><img class="logo" th:src="@{/img/flyer.jpg}" /></div>
 			
 			<div ng-controller="PollController" ng-cloak="">
-				<h1 class="text-center poll-title">{{poll.title}}</h1>
 				
-				<div ng-if="poll.submited == undefined">
+				<div ng-if="poll.submited != undefined">
 					<div class="text-center poll-description" ng-bind-html="pollDescriptionHtml"></div>
 					
 					<div class="question-group" ng-repeat="questionGroup in poll.questionGroups">
@@ -25,7 +24,7 @@
 						<p>{{questionGroup.descriptionByLanguages[lang]}}</p>
 						
 						<div class="question" ng-repeat="question in questionGroup.questions">
-							<h3>{{question.questionsByLanguage[lang]}}<span class="mandatory" ng-if="question.mandatory">*</span></h3>
+							<h3>{{question.questionsByLanguage[lang]}}<span class="mandatory" ng-if="question.mandatory && question.type != 'FILE_UPLOAD'">*</span></h3>
 							<div class="question-hint">{{question.answerExempleByLanguages[lang]}}</div>
 							
 							<div class="row">
@@ -69,13 +68,18 @@
 					
 					<div class="poll-notice" ng-bind-html="pollNoticeHtml"></div>
 					
-					<button ng-if="valid && poll.loading == undefined" class="btn btn-primary" ng-click="submit()">Soumettre</button>
-					<button ng-if="!valid || poll.loading == true" class="btn btn-primary" disabled="disabled">Soumettre</button>
+					<button ng-if="valid && poll.loading == undefined" class="btn btn-primary submit" ng-click="submit()">Soumettre</button>
+					<button ng-if="!valid || poll.loading == true" class="btn btn-primary submit" disabled="disabled">Soumettre</button>
 					<img ng-if="poll.loading == true" th:src="@{/img/loading.gif}" />
 				</div>
 				
-				<div ng-if="poll.submited">
-					<p class="text-center">Votre aventure nous a été soumise ! Merci pour votre participation !</p>
+				<div ng-if="poll.submited == undefined" class="text-center">
+					<p>Merci d'avoir partagé votre aventure, votre participation est bien enregistrée!<p> 
+					<p>
+						Pour suivre l'évolution de notre photocontest, la publication des aventures, et l'élection de la plus 
+						belle aventure en van par notre communauté, n'oubliez pas de nous suivre sur les comptes We-Van 
+						<a href="https://www.facebook.com/pages/We-Van/107342759301550">Facebook</a> et <a href="https://instagram.com/we_van/">Instagram</a>.</p>
+					<p>A bientôt!</p>
 				</div>
 			</div>
 		</div>

@@ -3,7 +3,7 @@ body {
 	background-repeat: no-repeat;
   	background-position: center top;
 	
-	font-family: "Amaranth";
+	font-family: "Luballin";
 	color: rgb(0, 161, 203);
 }
 
@@ -16,6 +16,7 @@ textarea.form-control {
     height: auto;
     text-align: center;
 	max-width: 100%;
+	padding-bottom: 20px;
 }
 
 .mandatory{
@@ -32,7 +33,7 @@ textarea.form-control {
 	font-weight: bold;
 }
 
-.poll.description{
+.poll-description{
 	font-family: "Amaranth";
 	color: rgb(112, 111, 111);
 	font-weight: 400;
@@ -57,9 +58,17 @@ textarea.form-control {
 	margin-bottom: 3px;
 }
 
+.question input[type='file']{
+	margin-bottom: 20px;
+}
+
 .question-hint{
 	color: rgb(183,183,183);
 	font-size: 13px;
+}
+
+.submit{
+	margin-top: 20px;
 }
 
 .invalid{
@@ -68,17 +77,17 @@ textarea.form-control {
 
 /* latin */
 @font-face {
-  font-family: 'Amaranth';
+  font-family: 'Luballin';
   font-style: normal;
   font-weight: 400;
-  src: local('Amaranth'), url(https://fonts.gstatic.com/s/amaranth/v6/No9yO-s63zoPZDtAqBg6OfesZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  src: local('Luballin'), url(/Lubalin-Graph-Regular.ttf) format('Lubalin-Graph-Regular.ttf');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
-/* latin */
-@font-face {
-  font-family: 'Amaranth';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Amaranth Bold'), local('Amaranth-Bold'), url(https://fonts.gstatic.com/s/amaranth/v6/hh4Od9pccylRpuf5LUPgEo4P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-}
+/* /* latin */ */
+/* @font-face { */
+/*   font-family: 'Luballin'; */
+/*   font-style: normal; */
+/*   font-weight: 700; */
+/*   src: local('Amaranth Bold'), local('Amaranth-Bold'), url(/Lubalin Graph Regular.ttf) format('ttf'); */
+/*   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; */
+/* } */
