@@ -75,6 +75,10 @@ textarea.form-control {
 	border-color: red;
 }
 
+.submited a{
+	text-decoration: underline;
+}
+
 /* latin */
 @font-face {
   font-family: 'Luballin';
