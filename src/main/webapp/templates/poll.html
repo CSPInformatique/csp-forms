@@ -15,7 +15,7 @@
 			
 			<div ng-controller="PollController" ng-cloak="">
 				
-				<div ng-if="poll.submited != undefined">
+				<div ng-if="poll.submited == undefined">
 					<div class="text-center poll-description" ng-bind-html="pollDescriptionHtml"></div>
 					
 					<div class="question-group" ng-repeat="questionGroup in poll.questionGroups">
@@ -73,7 +73,7 @@
 					<img ng-if="poll.loading == true" th:src="@{/img/loading.gif}" />
 				</div>
 				
-				<div ng-if="poll.submited == undefined" class="submited text-center">
+				<div ng-if="poll.submited" class="submited text-center">
 					<p>Merci d'avoir partagé votre aventure, votre participation est bien enregistrée!<p> 
 					<p>
 						Pour suivre l'évolution de notre photocontest, la publication des aventures, et l'élection de la plus 
