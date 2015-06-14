@@ -12,6 +12,10 @@ textarea.form-control {
 	height: 100px;
 }
 
+th{
+	text-align: center;
+}
+
 .logo{
     height: auto;
     text-align: center;
@@ -65,6 +69,11 @@ textarea.form-control {
 .question-hint{
 	color: rgb(183,183,183);
 	font-size: 13px;
+}
+
+.poll img{
+	height: auto;
+	max-width: 100%;
 }
 
 .submit{

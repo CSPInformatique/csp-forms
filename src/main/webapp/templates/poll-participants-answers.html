@@ -1,0 +1,70 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>We-Van - Concours</title>
+		
+		<link th:replace="util/imports :: head" />
+	</head>
+	
+	<body ng-app="PollParticipantsAnswers">		
+		<div ng-app="PollParticipantsAnswers" ng-controller="PollParticipantsAnswersController as view" ng-cloak class="container text-center">
+			<h1>Réponses au concours</h1>
+
+			<ul class="pager row text-center">
+				<li class="col-md-2">
+					&nbsp;
+					<a href="#" ng-if="!pollParticipantAnswersPage.first" ng-click="changePage(pollParticipantAnswersPage.number-1)">Précédente</a>
+				</li>
+				
+				<li class="col-md-8">Page {{pollParticipantAnswersPage.number+1}} sur {{pollParticipantAnswersPage.totalPages}}</li>
+				
+				<li class="col-md-2">
+					&nbsp;
+					<a href="#" ng-if="!pollParticipantAnswersPage.last" ng-click="changePage(pollParticipantAnswersPage.number+1)">Suivante</a>
+				</li>
+			</ul>
+			
+			<div class="notifications table-responsive">
+				<table class="panel panel-default table table-hover table-condensed text-center">
+					<thead>
+						<tr>
+							<th>
+								<span>Numéro</span>
+							</th>
+							
+							<th ng-repeat="answer in pollParticipantAnswersPage.content[0].answers" ng-if="answer.question.displayedInSummary">
+								{{answer.question.questionsByLanguage[lang]}}
+							</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr ng-repeat="pollParticipantAnswers in pollParticipantAnswersPage.content" ng-click="openPollParticipantAnswers(pollParticipantAnswers)">
+							<td>{{pollParticipantAnswers.id}}</td>
+							
+							<td ng-repeat="answer in pollParticipantAnswers.answers" ng-if="answer.question.displayedInSummary">
+								{{answer.text}}
+							</td>
+							<td>
+								
+							</td>
+						<tr>
+						
+						<tr ng-if="notificationsPage.content.length == 0">
+							<td colspan="7">
+								Aucune mise à jour
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<script th:replace="util/imports :: scripts"></script>
+		<script th:src="@{/js/poll-participants-answers.js}"></script>
+	</body>
+</html>

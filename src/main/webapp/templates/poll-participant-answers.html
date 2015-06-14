@@ -1,0 +1,42 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>We-Van - Concours</title>
+		
+		<link th:replace="util/imports :: head" />
+	</head>
+	
+	<body ng-app="PollParticipantAnswers">		
+		<div class="poll container">
+			<div ng-controller="PollParticipantAnswersController" ng-cloak="">
+				
+				<div class="question-group" ng-repeat="questionGroup in pollParticipantAnswers.poll.questionGroups">
+					<h2>{{questionGroup.titleByLanguages[lang]}}</h2>
+					
+					<p>{{questionGroup.descriptionByLanguages[lang]}}</p>
+					
+					<div class="question" ng-repeat="question in questionGroup.questions">
+						<h3>{{question.questionsByLanguage[lang]}}<span class="mandatory" ng-if="question.mandatory && question.type != 'FILE_UPLOAD'">*</span></h3>
+						<div class="question-hint">{{question.answerExempleByLanguages[lang]}}</div>
+						
+						<div class="row">
+							<span ng-if="question.type != 'FILE_UPLOAD'" class="col-sm-6">
+								{{answers[question.id].text}}
+							</span>
+							
+							<span ng-if="question.type == 'FILE_UPLOAD'" class="col-sm-9">
+								<a ng-href="/image/{{answers[question.id].image.id}}" target="_BLANK"><img ng-src="/image/{{answers[question.id].image.id}}" /></a>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script th:replace="util/imports :: scripts"></script>
+		<script th:src="@{/js/poll-participant-answers.js}"></script>
+	</body>
+</html>

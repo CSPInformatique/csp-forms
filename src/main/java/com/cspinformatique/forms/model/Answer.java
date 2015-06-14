@@ -1,27 +1,29 @@
 package com.cspinformatique.forms.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Answer {
 	private int id;
 	private Question question;
 	private String text;
-	private String filePath;
+	private Image image;
 
 	public Answer() {
 
 	}
 
-	public Answer(int id, Question question, String text, String filePath) {
+	public Answer(int id, Question question, String text, Image image) {
 		this.id = id;
 		this.question = question;
 		this.text = text;
-		this.filePath = filePath;
+		this.image = image;
 	}
 
 	@Id
@@ -51,11 +53,12 @@ public class Answer {
 		this.text = text;
 	}
 
-	public String getFilePath() {
-		return filePath;
+	@OneToOne(cascade = CascadeType.ALL)
+	public Image getImage() {
+		return image;
 	}
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+	public void setImage(Image image) {
+		this.image = image;
 	}
 }

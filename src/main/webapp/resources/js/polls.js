@@ -81,9 +81,10 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 						question, 
 						file, 
 						"/image", 
-						function(question, filename){
+						function(question, image){
 							// File uploaded successfully.
-							$scope.answers[question.id] = {filePath : filename};
+							$scope.answers[question.id] = {	question : question,
+															image : image};
 							
 							++fileCount;
 							

@@ -23,6 +23,7 @@ public class Question {
 	private Map<String, String> questionsByLanguage;
 	private Map<String, String> answerExempleByLanguages;
 	private Map<String, LanguageOptions> optionsByLanguages;
+	private boolean displayedInSummary;
 
 	public Question() {
 
@@ -31,7 +32,8 @@ public class Question {
 	public Question(int id, int number, Type type, boolean mandatory,
 			Map<String, String> questionsByLanguage,
 			Map<String, String> answerExempleByLanguages,
-			Map<String, LanguageOptions> optionsByLanguages) {
+			Map<String, LanguageOptions> optionsByLanguages,
+			boolean displayedInSummary) {
 		this.id = id;
 		this.number = number;
 		this.type = type;
@@ -39,6 +41,7 @@ public class Question {
 		this.questionsByLanguage = questionsByLanguage;
 		this.answerExempleByLanguages = answerExempleByLanguages;
 		this.optionsByLanguages = optionsByLanguages;
+		this.displayedInSummary = displayedInSummary;
 	}
 
 	@Id
@@ -103,6 +106,14 @@ public class Question {
 	public void setOptionsByLanguages(
 			Map<String, LanguageOptions> optionsByLanguages) {
 		this.optionsByLanguages = optionsByLanguages;
+	}
+
+	public boolean isDisplayedInSummary() {
+		return displayedInSummary;
+	}
+
+	public void setDisplayedInSummary(boolean displayedInSummary) {
+		this.displayedInSummary = displayedInSummary;
 	}
 
 }
