@@ -53,7 +53,7 @@ public class Answer {
 		this.text = text;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	public Image getImage() {
 		return image;
 	}
