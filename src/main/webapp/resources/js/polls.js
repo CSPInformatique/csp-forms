@@ -20,24 +20,39 @@ app.service('fileUpload', ['$http', function ($scope, $http) {
     this.uploadQuestionFileToUrl = function($http, question, file, uploadUrl, success, error){
         var fd = new FormData();
         fd.append('file', file);
-        $http.post(uploadUrl, fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        })
-        .success(function(response){
-        	if(success != undefined){
-        		success(question, response);
-        	}
-        })
-        .error(function(msg){
-        	if(error != undefined){
-        		error(msg);
-        	}
-        });
+        
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function(){
+            if(request.readyState == 4){
+                try {
+                	var resp = JSON.parse(request.response);
+                	if(request.status == 200){
+	                	if(success != undefined){
+	                		success(question, resp);
+	                	}
+                	}else{
+                		error(resp);
+                	}
+                } catch (e){
+                    error(request.response);
+                } 
+            }
+        };
+        
+        request.upload.addEventListener('progress', function(e){
+        	$(".progress-bar").css("width", Math.ceil(e.loaded/e.total) * 100 + '%');
+        }, false);
+        
+        try {
+	        request.open('POST', uploadUrl);
+	        request.send(fd);
+        } catch (e){
+            error(request.response);
+        } 
     }
 }]);
 
-app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpload){
+app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpload, $timeout){
 	$scope.lang = "fr";
 	
 	$scope.hideAlerts = function(){
@@ -53,7 +68,8 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 		$http.post("/pollParticipantAnswers", {poll : $scope.poll, answers : answersArray}).success(function(pollParticipantAnswers){
 			$scope.poll.submited = true;
 		}).finally(function(){
-			$scope.poll.loading = null;
+			$scope.poll.loading = false;
+			$(".progress").addClass("hidden");
 		});
 	}
 	
@@ -61,6 +77,8 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 		$scope.poll.loading = true; 
 		var success;
 		var fileCount = 0;
+		
+		$(".progress").removeClass("hidden");
 		
 		// Uploading files.
 		
@@ -94,8 +112,12 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 							}
 						}, 
 						function(message){
-							$scope.errorMessage = message;
-							$(".error").removeClass("hidden");
+							$timeout(function(){
+								$scope.poll.loading = false;
+								$scope.error = {message : message};
+								$(".error").removeClass("hidden");
+								$(".progress").addClass("hidden");
+							});
 						}
 					);
 				}
@@ -130,7 +152,7 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 				$scope.valid = false;
 			}else if(element.files[0].size > 10000000 ){
 				$scope.valid = false;
-				$scope.errorMessage = "L'image ne peut excéder 10Mb.";
+				$scope.error = {message : "L'image ne peut excéder 10Mb."};
 				$(".error").removeClass("hidden");
 			}
 		});
@@ -138,6 +160,7 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 	
 	$http.get("/poll/1").success(function(poll){
 		$scope.poll = poll;
+		$scope.poll.loading = false;
 		$scope.answers = {};
 		$scope.files = {};
 		

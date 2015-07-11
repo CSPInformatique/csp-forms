@@ -30,7 +30,7 @@ import com.cspinformatique.forms.service.ImageService;
 @RequestMapping("/image")
 public class ImageController implements InitializingBean {
 	private List<String> supportedExtensions = Arrays.asList(new String[] {
-			"jpeg", "jpg", "png" });
+			"jpeg", "jpg", "png", "gif" });
 
 	@Autowired
 	private ImageService imageService;
