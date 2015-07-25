@@ -26,7 +26,6 @@ app.service('fileUpload', ['$http', function ($scope, $http) {
             if(request.readyState == 4){
                 try {
                 	var resp = JSON.parse(request.response);
-                	osti.crash();
                 	if(request.status == 200){
 	                	if(success != undefined){
 	                		success(question, resp);
