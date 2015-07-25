@@ -66,7 +66,7 @@ public class ImageController implements InitializingBean {
 
 			stream.write(bytes);
 			stream.close();
-
+			
 			return this.imageService.save(new Image(0, filename));
 		} catch (IOException ioEx) {
 			throw new RuntimeException(ioEx);

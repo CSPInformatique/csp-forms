@@ -19,21 +19,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.antMatchers("/css/**", "/img/**", "/js/**", "/libs/**", "/")
-				.permitAll()
-				.antMatchers(HttpMethod.GET, "/poll/**")
-				.permitAll()
-				.antMatchers(HttpMethod.POST, "/image",
-						"/pollParticipantAnswers").permitAll().anyRequest()
-				.authenticated().and().formLogin().loginPage("/login")
-				.permitAll().and().logout().logoutUrl("/logout").permitAll()
-				.and().csrf().disable().httpBasic();
+		http.authorizeRequests().antMatchers("/css/**", "/img/**", "/js/**", "/libs/**", "/").permitAll()
+				.antMatchers(HttpMethod.GET, "/poll/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/image", "/pollParticipantAnswers", "/error").permitAll().anyRequest()
+				.authenticated().and().formLogin().loginPage("/login").permitAll().and().logout().logoutUrl("/logout")
+				.permitAll().and().csrf().disable().httpBasic();
 	}
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth)
-			throws Exception {
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService);
 	}
 }

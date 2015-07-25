@@ -1,10 +1,10 @@
 package com.cspinformatique.forms.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -45,6 +45,7 @@ public class Answer {
 		this.question = question;
 	}
 
+	@Lob
 	public String getText() {
 		return text;
 	}

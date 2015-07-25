@@ -17,7 +17,7 @@ app.directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 app.service('fileUpload', ['$http', function ($scope, $http) {
-    this.uploadQuestionFileToUrl = function($http, question, file, uploadUrl, success, error){
+    this.uploadQuestionFileToUrl = function($http, question, file, uploadUrl, success, clientErrorFn, serverErrorFn){
         var fd = new FormData();
         fd.append('file', file);
         
@@ -26,15 +26,20 @@ app.service('fileUpload', ['$http', function ($scope, $http) {
             if(request.readyState == 4){
                 try {
                 	var resp = JSON.parse(request.response);
+                	osti.crash();
                 	if(request.status == 200){
 	                	if(success != undefined){
 	                		success(question, resp);
 	                	}
                 	}else{
-                		error(resp);
+                		if(resp.message != undefined){
+                			serverErrorFn(resp);
+                		}else{                			
+                			clientErrorFn(resp);                			
+                		}
                 	}
-                } catch (e){
-                    error(request.response);
+                } catch (ex){
+                	clientErrorFn(ex);
                 } 
             }
         };
@@ -46,14 +51,39 @@ app.service('fileUpload', ['$http', function ($scope, $http) {
         try {
 	        request.open('POST', uploadUrl);
 	        request.send(fd);
-        } catch (e){
-            error(request.response);
+        } catch (ex){
+        	serverErrorFn(request.response, ex);
         } 
     }
 }]);
 
 app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpload, $timeout){
 	$scope.lang = "fr";
+	
+	$scope.handleClientError = function(exception){
+		$http.post("/error", {message : exception.toString(), exception : exception.stack}).success(function(){
+			console.log("yes");
+		}).error(function(){
+			console.log("osti");
+		});
+		
+		
+		$scope.handleError("Une erreur est survenue. Nos techiciens ont été informés.");
+	};
+	
+	$scope.handleError = function(message){
+		$timeout(function(){
+			$scope.poll.loading = false;
+			$scope.error = {message : message};
+			
+			$(".error").removeClass("hidden");
+			$(".progress").addClass("hidden");
+		});
+	};
+	
+	$scope.handleServerError = function(error){
+		$scope.handleError(error.message);
+	};
 	
 	$scope.hideAlerts = function(){
 		$(".error").addClass("hidden");
@@ -67,6 +97,8 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 		
 		$http.post("/pollParticipantAnswers", {poll : $scope.poll, answers : answersArray}).success(function(pollParticipantAnswers){
 			$scope.poll.submited = true;
+		}).error(function(data){
+			handleServerError(data);
 		}).finally(function(){
 			$scope.poll.loading = false;
 			$(".progress").addClass("hidden");
@@ -111,14 +143,8 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 								$scope.postForm();
 							}
 						}, 
-						function(message){
-							$timeout(function(){
-								$scope.poll.loading = false;
-								$scope.error = {message : message};
-								$(".error").removeClass("hidden");
-								$(".progress").addClass("hidden");
-							});
-						}
+						$scope.handleClientError,
+						$scope.handleServerError
 					);
 				}
 			}
