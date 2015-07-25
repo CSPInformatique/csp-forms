@@ -38,7 +38,6 @@ public class PollParticipantAnswersController {
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody PollParticipantAnswers save(
 			@RequestBody PollParticipantAnswers pollParticipantAnswers) {
-		throw new RuntimeException("Une erreur est survenu");
-//		return this.pollParticipantAnswersService.save(pollParticipantAnswers);
+		return this.pollParticipantAnswersService.save(pollParticipantAnswers);
 	}
 }

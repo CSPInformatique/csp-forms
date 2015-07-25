@@ -97,7 +97,7 @@ app.controller("PollController", function($timeout, $scope, $http, $sce, fileUpl
 		$http.post("/pollParticipantAnswers", {poll : $scope.poll, answers : answersArray}).success(function(pollParticipantAnswers){
 			$scope.poll.submited = true;
 		}).error(function(data){
-			handleServerError(data);
+			$scope.handleServerError(data);
 		}).finally(function(){
 			$scope.poll.loading = false;
 			$(".progress").addClass("hidden");
